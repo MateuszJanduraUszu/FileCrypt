@@ -4,8 +4,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _FCRYPT_UTILS_HPP_
-#define _FCRYPT_UTILS_HPP_
+#ifndef _FCRYPT_APP_UTILS_HPP_
+#define _FCRYPT_APP_UTILS_HPP_
 #include <openssl/rand.h>
 #include <string>
 #include <string_view>
@@ -105,4 +105,4 @@ namespace fcrypt {
     };
 } // namespace fcrypt
 
-#endif // _FCRYPT_UTILS_HPP_
+#endif // _FCRYPT_APP_UTILS_HPP_
