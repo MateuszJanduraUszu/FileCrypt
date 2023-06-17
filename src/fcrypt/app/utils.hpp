@@ -16,6 +16,11 @@ namespace fcrypt {
     using byte_string      = ::std::basic_string<byte_t>;
     using byte_string_view = ::std::basic_string_view<byte_t>;
 
+    template <class _Ty>
+    constexpr const _Ty _Min(const _Ty _Left, const _Ty _Right) noexcept {
+        return _Left < _Right ? _Left : _Right;
+    }
+
     inline void _Scrub_memory(void* _Ptr, const size_t _Size) noexcept {
         byte_t* const _Bytes = static_cast<byte_t*>(_Ptr);
         ::memset(_Bytes, 0, _Size); // fill with zeros
