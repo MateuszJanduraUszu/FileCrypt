@@ -36,6 +36,9 @@ namespace fcrypt {
         // tries to change the file pointer position
         bool seek(const uint64_t _New_pos) noexcept;
 
+        // tries to change the file pointer position to the end (allows append)
+        bool seek_for_append() noexcept;
+
         // tries to move forward/backward the file pointer
         bool move(const uint64_t _Off, const move_direction _Direction) noexcept;
 

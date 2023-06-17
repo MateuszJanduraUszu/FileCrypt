@@ -112,6 +112,20 @@ namespace fcrypt {
         }
     }
 
+    bool file::seek_for_append() noexcept {
+        if (!_Myhandle) {
+            return false;
+        }
+
+        const uint64_t _New_pos = size(); // last byte offset + 1, allows append
+        if (_Seek(_Myhandle, _New_pos)) {
+            _Myoff = _New_pos;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     bool file::move(const uint64_t _Off, const move_direction _Direction) noexcept {
         if (!_Myhandle) {
             return false;
