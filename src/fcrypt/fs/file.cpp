@@ -61,17 +61,13 @@ namespace fcrypt {
             return false;
         }
 
-        unsigned long _Read = 0;
-        if (_Read_bytes(_Myhandle, _Buf, _Count)) {
-            _Myoff += static_cast<uint64_t>(_Read);
+        const size_t _Read = _Read_bytes(_Myhandle, _Buf, _Count);
 #ifdef _M_X64
-            return static_cast<size_t>(_Read);
+        _Myoff            += _Read;
 #else // ^^^ _M_X64 ^^^ / vvv _M_IX86 vvv
-            return _Read;
+        _Myoff            += static_cast<uint64_t>(_Read);
 #endif // _M_X64
-        } else {
-            return 0;
-        }
+        return _Read;
     }
 
     bool file::write(const byte_string_view _Bytes) noexcept {
