@@ -24,8 +24,8 @@ namespace fcrypt {
         virtual ~encryption_engine() noexcept;
 
         enum id : unsigned char {
-            none,
-            aes256_gcm
+            none       = 0x00,
+            aes256_gcm = 0xAE
         };
 
         virtual bool setup_encryption(const key&, const iv&) noexcept                   = 0;
