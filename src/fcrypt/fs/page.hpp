@@ -49,7 +49,7 @@ namespace fcrypt {
 
     class page_encryption_manager {
     public:
-        explicit page_encryption_manager(encryption_engine& _Engine) noexcept;
+        explicit page_encryption_manager(encryption_engine* const _Engine) noexcept;
         ~page_encryption_manager() noexcept;
 
         page_encryption_manager(const page_encryption_manager&) = delete;
@@ -62,7 +62,7 @@ namespace fcrypt {
         bool decrypt(page& _Page) noexcept;
 
     private:
-        encryption_engine& _Myeng;
+        encryption_engine* _Myeng;
     };
 
     class page_iterator { // iterates through all pages

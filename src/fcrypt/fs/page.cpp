@@ -68,19 +68,19 @@ namespace fcrypt {
         return _Mydata;
     }
 
-    page_encryption_manager::page_encryption_manager(encryption_engine& _Engine) noexcept
+    page_encryption_manager::page_encryption_manager(encryption_engine* const _Engine) noexcept
         : _Myeng(_Engine) {}
 
     page_encryption_manager::~page_encryption_manager() noexcept {}
 
     bool page_encryption_manager::encrypt(page& _Page) noexcept {
         const byte_t* const _Data = _Page.data();
-        return _Myeng.encrypt(_Data, _Page.usage(), _Page.data());
+        return _Myeng->encrypt(_Data, _Page.usage(), _Page.data());
     }
 
     bool page_encryption_manager::decrypt(page& _Page) noexcept {
         const byte_t* const _Data = _Page.data();
-        return _Myeng.decrypt(_Data, _Page.usage(), _Page.data());
+        return _Myeng->decrypt(_Data, _Page.usage(), _Page.data());
     }
 
     page_iterator::page_iterator(file& _File) noexcept : _Myfile(_File), _Mypage() {}
