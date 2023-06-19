@@ -43,7 +43,7 @@ namespace fcrypt {
         // tries to extract a metadata from the file
         bool extract(file& _File) noexcept;
 
-        // tries to safe the metadata to the file
+        // tries to save the metadata to the file
         bool save(file& _File) noexcept;
 
     private:
