@@ -14,8 +14,8 @@ namespace fcrypt {
     }
 
     [[nodiscard]] void* file::_Open(const path& _Target) {
-        return ::CreateFileW(_Target.c_str(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ
-            | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+        return ::CreateFileW(_Target.c_str(), GENERIC_READ | GENERIC_WRITE,
+            0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
     }
 
     size_t file::_Read_bytes(void* const _Handle, byte_t* const _Buf, const size_t _Count) noexcept {
