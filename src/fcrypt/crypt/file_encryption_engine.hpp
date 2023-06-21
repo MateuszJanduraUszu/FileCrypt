@@ -62,17 +62,11 @@ namespace fcrypt {
         explicit file_encryption_engine(file& _File, encryption_engine* const _Engine) noexcept;
         ~file_encryption_engine() noexcept;
 
-        enum error : unsigned char {
-            success,
-            invalid_tag,
-            failure
-        };
-
         // tries to encrypt the file
-        error encrypt(const key& _Key, const iv& _Iv, authentication_tag& _Tag) noexcept;
+        bool encrypt(const key& _Key, const iv& _Iv, authentication_tag& _Tag) noexcept;
 
         // tries to decrypt the file
-        error decrypt(const key& _Key, const iv& _Iv, authentication_tag& _Tag) noexcept;
+        bool decrypt(const key& _Key, const iv& _Iv, authentication_tag& _Tag) noexcept;
 
     private:
         page_iterator _Myiter;

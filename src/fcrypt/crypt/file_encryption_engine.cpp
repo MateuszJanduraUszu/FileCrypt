@@ -77,10 +77,9 @@ namespace fcrypt {
 
     file_encryption_engine::~file_encryption_engine() noexcept {}
 
-    file_encryption_engine::error file_encryption_engine::encrypt(
-        const key& _Key, const iv& _Iv, authentication_tag& _Tag) noexcept {
+    bool file_encryption_engine::encrypt(const key& _Key, const iv& _Iv, authentication_tag& _Tag) noexcept {
         if (!_Myeng->setup_encryption(_Key, _Iv)) {
-            return failure;
+            return false;
         }
 
         file& _File = _Myiter.source();
@@ -90,22 +89,21 @@ namespace fcrypt {
         while (_Myiter.next()) {
             _Page = _Myiter.current_page();
             if (!_Mgr.encrypt(_Page)) {
-                return failure;
+                return false;
             }
 
             _Myiter.move_back(); // move back to overwrite the current page
             if (!_File.write(byte_string_view{_Page.data(), _Page.usage()})) {
-                return failure;
+                return false;
             }
         }
 
-        return _Myeng->complete_encryption(_Tag) ? success : failure;
+        return _Myeng->complete_encryption(_Tag);
     }
 
-    file_encryption_engine::error file_encryption_engine::decrypt(
-        const key& _Key, const iv& _Iv, authentication_tag& _Tag) noexcept {
+    bool file_encryption_engine::decrypt(const key& _Key, const iv& _Iv, authentication_tag& _Tag) noexcept {
         if (!_Myeng->setup_decryption(_Key, _Iv)) {
-            return failure;
+            return false;
         }
 
         file& _File = _Myiter.source();
@@ -115,15 +113,15 @@ namespace fcrypt {
         while (_Myiter.next()) {
             _Page = _Myiter.current_page();
             if (!_Mgr.decrypt(_Page)) {
-                return failure;
+                return false;
             }
 
             _Myiter.move_back(); // move back to overwrite the current page
             if (!_File.write(byte_string_view{_Page.data(), _Page.usage()})) {
-                return failure;
+                return false;
             }
         }
 
-        return _Myeng->complete_decryption(_Tag) ? success : invalid_tag;
+        return _Myeng->complete_decryption(_Tag);
     }
 } // namespace fcrypt
