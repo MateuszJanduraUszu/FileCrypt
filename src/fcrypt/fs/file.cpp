@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include <fcrypt/fs/file.hpp>
-#include <Windows.h>
+#include <fcrypt/app/tinywin.hpp>
 
 namespace fcrypt {
     file::file(const path& _Target) : _Myhandle(_Open(_Target)), _Myoff(0) {}
