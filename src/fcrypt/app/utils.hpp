@@ -6,6 +6,7 @@
 #pragma once
 #ifndef _FCRYPT_APP_UTILS_HPP_
 #define _FCRYPT_APP_UTILS_HPP_
+#include <fcrypt/app/tinywin.hpp>
 #include <openssl/rand.h>
 #include <string>
 #include <string_view>
@@ -22,9 +23,7 @@ namespace fcrypt {
     }
 
     inline void _Scrub_memory(void* _Ptr, const size_t _Size) noexcept {
-        byte_t* const _Bytes = static_cast<byte_t*>(_Ptr);
-        ::memset(_Bytes, 0, _Size); // fill with zeros
-        ::RAND_bytes(_Bytes, static_cast<int>(_Size)); // fill with random data
+        ::SecureZeroMemory(_Ptr, _Size);
     }
 
     template <size_t _Size>
@@ -108,6 +107,39 @@ namespace fcrypt {
 
         byte_t _Mydata[_Size];
     };
+
+    template <class _Ty>
+    constexpr bool _Has_bits(const _Ty _Bitmask, const _Ty _Bits) noexcept {
+        return (_Bitmask & _Bits) != _Ty{0};
+    }
+
+    class _Dynamic_library_handle {
+    public:
+        explicit _Dynamic_library_handle(const char* const _Name) : _Myptr(::LoadLibraryA(_Name)) {}
+    
+        ~_Dynamic_library_handle() noexcept {
+            if (_Myptr) {
+                ::FreeLibrary(_Myptr);
+                _Myptr = nullptr;
+            }
+        }
+
+        bool _Valid() const noexcept {
+            return _Myptr != nullptr;
+        }
+
+        HMODULE _Get() noexcept {
+            return _Myptr;
+        }
+
+    private:
+        HMODULE _Myptr;
+    };
+
+    template <class _Fn>
+    inline _Fn _Load_symbol(_Dynamic_library_handle& _Handle, const char* const _Symbol) noexcept {
+        return _Handle._Valid() ? reinterpret_cast<_Fn>(::GetProcAddress(_Handle._Get(), _Symbol)) : nullptr;
+    }
 } // namespace fcrypt
 
 #endif // _FCRYPT_APP_UTILS_HPP_
