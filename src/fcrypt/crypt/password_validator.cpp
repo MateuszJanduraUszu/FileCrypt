@@ -34,7 +34,7 @@ namespace fcrypt {
         bool _Has_lowercase = false;
         bool _Has_uppercase = false;
         bool _Has_special   = false;
-        const auto _Valid   = [=] {
+        const auto _Valid   = [&]() noexcept {
             // all requirements must be met
             return _Has_digit && _Has_lowercase && _Has_uppercase && _Has_special;
         };
